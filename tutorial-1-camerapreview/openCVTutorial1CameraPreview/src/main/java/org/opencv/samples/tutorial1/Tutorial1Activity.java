@@ -18,15 +18,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 public class Tutorial1Activity extends Activity implements CvCameraViewListener2 {
     private static final String TAG = "OCVSample::Activity";
-
+    private SeekBar bar;
     private CameraBridgeViewBase mOpenCvCameraView;
     private boolean              mIsJavaCamera = true;
     private MenuItem             mItemSwitchCamera = null;
-
+    int t=0;
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -54,8 +55,28 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
         Log.i(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
         setContentView(R.layout.tutorial1_surface_view);
+
+        bar = (SeekBar)findViewById(R.id.seekBar);
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {//设置滑动监听
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                t = progress;
+//                stringBuffer.append("正在拖动"+progress+"\n");
+//                textView.setText(stringBuffer);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+//                stringBuffer=new StringBuffer();
+//                stringBuffer.append("开始拖动+\n");
+//                textView.setText(stringBuffer);
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+//                stringBuffer.append("停止拖动+\n");
+//                textView.setText(stringBuffer);
+            }
+        });
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.tutorial1_activity_java_surface_view);
 
@@ -102,6 +123,8 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
         gray = inputFrame.gray();
         Imgproc.GaussianBlur(gray,gray,new Size(5,5),55);
         Core.flip(gray, gray, 1);
+        Imgproc.threshold(gray, gray, t, 255,Imgproc.THRESH_BINARY);
+        Log.d("TTT", String.valueOf(Imgproc.THRESH_OTSU));
 //        return inputFrame.rgba();
         return gray;
 

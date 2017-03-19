@@ -12,4 +12,10 @@
         opencv:show_fps="true"
         opencv:camera_id="any" />
 
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:max="255" />
+
 </FrameLayout>
