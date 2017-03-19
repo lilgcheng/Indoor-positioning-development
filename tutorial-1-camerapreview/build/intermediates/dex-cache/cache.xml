@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="D:\AndroidStudioProjects\Indoor-positioning-development\tutorial-1-camerapreview\openCVTutorial1CameraPreview\build\intermediates\exploded-aar\tutorial-1-camerapreview\openCVLibrary310\unspecified\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="99479511e06cc72d590c0260e905739579c8b591">
+        <dex dex="D:\AndroidStudioProjects\Indoor-positioning-development\tutorial-1-camerapreview\openCVTutorial1CameraPreview\build\intermediates\pre-dexed\debug\tutorial-1-camerapreview-openCVLibrary310-unspecified_52117b28156b8c7e41ec9d1213089700aab89924.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\AndroidStudioProjects\Git-Camera_preview\tutorial-1-camerapreview\openCVTutorial1CameraPreview\build\intermediates\exploded-aar\tutorial-1-camerapreview\openCVLibrary310\unspecified\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3cfd729e79a68337105bf470d662fe557fbdb2aa">
+        <dex dex="D:\AndroidStudioProjects\Git-Camera_preview\tutorial-1-camerapreview\openCVTutorial1CameraPreview\build\intermediates\pre-dexed\debug\tutorial-1-camerapreview-openCVLibrary310-unspecified_c99fe22ad5269f92b5cd0fe7519b7b0c29e11637.jar" />
+    </item>
+
+</items>
