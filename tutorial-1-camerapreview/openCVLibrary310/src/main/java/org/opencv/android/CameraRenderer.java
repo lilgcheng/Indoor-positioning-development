@@ -40,8 +40,7 @@ public class CameraRenderer extends CameraGLRendererBase {
         if (id == CameraBridgeViewBase.CAMERA_ID_ANY) {
             Log.d(LOGTAG, "Trying to open camera with old open()");
             try {
-                //mCamera = Camera.open();
-                mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);//
+                mCamera = Camera.open();
             }
             catch (Exception e){
                 Log.e(LOGTAG, "Camera is not available (in use or does not exist): " + e.getLocalizedMessage());

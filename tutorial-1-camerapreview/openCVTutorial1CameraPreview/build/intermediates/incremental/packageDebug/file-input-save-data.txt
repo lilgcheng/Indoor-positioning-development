@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun Mar 19 21:10:40 GMT+08:00 2017
+#Sun Mar 19 22:44:56 GMT+08:00 2017
 1.base=D\:\\AndroidStudioProjects\\Indoor-positioning-development\\tutorial-1-camerapreview\\openCVTutorial1CameraPreview\\build\\intermediates\\res\\resources-debug.ap_
 4.file=D\:\\AndroidStudioProjects\\Indoor-positioning-development\\tutorial-1-camerapreview\\openCVTutorial1CameraPreview\\build\\intermediates\\res\\resources-debug.ap_\\resources.arsc
 1.file=D\:\\AndroidStudioProjects\\Indoor-positioning-development\\tutorial-1-camerapreview\\openCVTutorial1CameraPreview\\build\\intermediates\\res\\resources-debug.ap_\\AndroidManifest.xml
