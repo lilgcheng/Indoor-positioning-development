@@ -1,4 +1,4 @@
-#Sun Mar 19 23:23:54 GMT+08:00 2017
+#Wed Mar 22 21:37:45 GMT+08:00 2017
 base.0=D\:\\AndroidStudioProjects\\Indoor-positioning-development\\tutorial-1-camerapreview\\openCVTutorial1CameraPreview\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main
 renamed.0=classes.dex
 file.0=D\:\\AndroidStudioProjects\\Indoor-positioning-development\\tutorial-1-camerapreview\\openCVTutorial1CameraPreview\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main\\classes.dex
