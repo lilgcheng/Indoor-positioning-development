@@ -9,7 +9,9 @@ import org.opencv.core.Mat;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -35,9 +37,9 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
     private boolean mIsJavaCamera = true;
     private MenuItem mItemSwitchCamera = null;
     int t = 0;
-    private Mat                    mRgba;
-    private Mat                    mIntermediateMat;
-    private Mat                    mGray;
+    private Mat mRgba;
+    private Mat mIntermediateMat;
+    private Mat mGray;
     Mat hierarchy;
     List<MatOfPoint> contours;
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -135,7 +137,7 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat Orignal = inputFrame.rgba();
         Mat Gray = inputFrame.gray();
-        Imgproc.GaussianBlur(Gray, Gray, new Size(5, 5), 55);
+        Imgproc.GaussianBlur(Gray, Gray, new Size(15, 15), 50);
         Core.flip(Gray, Gray, 1);//翻轉方向
         Core.flip(Orignal, Orignal, 1);//翻轉方向
 
@@ -146,7 +148,37 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
         Imgproc.findContours(Gray, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
         hierarchy.release();
-        Imgproc.drawContours(Orignal, contours, -1, new Scalar(255, 0, 0),5);//, 2, 8, hierarchy, 0, new Point());
+//        Imgproc.drawContours(Orignal, contours, -1, new Scalar(255, 0, 0), 5);//, 2, 8, hierarchy, 0, new Point());
+
+
+        MatOfPoint2f approxCurve = new MatOfPoint2f();
+
+        //For each contour found
+        for (int i = 0; i < contours.size(); i++) {
+            //Convert contours(i) from MatOfPoint to MatOfPoint2f
+            if(Imgproc.contourArea(contours.get(i))>5000){
+
+                MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+
+                //Processing on mMOP2f1 which is in type MatOfPoint2f
+                double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
+                Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+
+                //Convert back to MatOfPoint
+                MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+
+                // Get bounding rect of contour
+                Rect rect = Imgproc.boundingRect(points);
+
+                // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
+                Imgproc.rectangle(Orignal, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0), 3);
+                Imgproc.circle(Orignal, new Point(rect.x + (rect.width / 2), rect.y + (rect.height) / 2), 10, new Scalar(0, 0, 255));
+                Imgproc.  putText(Orignal, String.valueOf((rect.x + (rect.width / 2)))+","+String.valueOf((rect.y + (rect.height) / 2))
+                        , new Point(rect.x + (rect.width / 2), rect.y + (rect.height) / 2), 3, 1, new Scalar(255, 0, 0, 255), 2);
+
+            }
+
+        }
         return Orignal;
     }
 }
