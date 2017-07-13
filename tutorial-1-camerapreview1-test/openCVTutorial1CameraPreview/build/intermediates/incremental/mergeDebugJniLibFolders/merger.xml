@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="D:\AndroidStudioProjects\Indoor-positioning-development\tutorial-1-camerapreview1-test\openCVTutorial1CameraPreview\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="D:\AndroidStudioProjects\Indoor-positioning-development\tutorial-1-camerapreview1-test\openCVTutorial1CameraPreview\src\debug\jniLibs"/></dataSet></merger>

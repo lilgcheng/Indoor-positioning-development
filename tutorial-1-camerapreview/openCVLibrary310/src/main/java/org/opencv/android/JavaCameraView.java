@@ -159,6 +159,7 @@ public class JavaCameraView extends CameraBridgeViewBase implements PreviewCallb
                     }
 
                     mCamera.setParameters(params);
+
                     params = mCamera.getParameters();
 
                     mFrameWidth = params.getPreviewSize().width;
@@ -352,6 +353,7 @@ public class JavaCameraView extends CameraBridgeViewBase implements PreviewCallb
                 }
             } while (!mStopThread);
             Log.d(TAG, "Finish processing thread");
+
         }
     }
 }
