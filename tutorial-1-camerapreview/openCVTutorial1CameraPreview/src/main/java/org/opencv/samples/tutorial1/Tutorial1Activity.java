@@ -32,6 +32,7 @@ import java.util.List;
 
 import static android.R.attr.angle;
 import static android.R.attr.x;
+import static android.R.attr.y;
 
 public class Tutorial1Activity extends Activity implements CvCameraViewListener2 {
     private static final String TAG = "OCVSample::Activity";
@@ -142,8 +143,8 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat Orignal = inputFrame.rgba();
 
-        int m = Orignal.width();
-        int n = Orignal.height();
+        int m = Orignal.width();//螢幕寬640
+        int n = Orignal.height();//螢幕寬480
 //        Log.d("MATDATAH", String.valueOf(Orignal.height()));
 //        Log.d("MATDATAW", String.valueOf(Orignal.width()));
         Mat Gray = inputFrame.gray();
@@ -195,20 +196,14 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
                     Imgproc.circle(Orignal, new Point(m / 2, n / 2), 3, new Scalar(255, 0, 255), 20);//當前位置(螢幕中心)
                 }
                 //儲存LED中心點
-                arr_X[i] = (rect.x + (rect.width / 2));//x[0],x[1]
-                arr_Y[i] = (rect.y + (rect.height) / 2);//y[0],y[1]
+                arr_X[i] = (rect.x + (rect.width / 2));//x[1],x[2]
+                arr_Y[i] = (rect.y + (rect.height) / 2);//y[1],y[2]
             }
         }//for迴圈結尾
 
-        //D2 兩盞燈像素距離
-        int D2 = (int) Math.sqrt(
-                Math.abs(arr_X[1] - arr_X[2]) * Math.abs(arr_X[1] - arr_X[2]) +
-                        Math.abs(arr_Y[1] - arr_Y[2]) * Math.abs(arr_Y[1] - arr_Y[2])
-        );
-        double nn = (double) 120 / D2;
 
         if (arr_X[1] <= arr_X[2]) {
-            //TX1 - TX2
+            //TX1 - TX2(原始x軸x2>x1)
             Imgproc.putText(Orignal, "TX1", new Point(arr_X[1] - 50, arr_Y[1] + 50), 2, 1, new Scalar(0, 255, 0), 2);//綠色
             Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[1]) + "," + String.valueOf(arr_Y[1])
                     + ")", new Point(arr_X[1] - 75, arr_Y[1] + 75), 2, 1, new Scalar(0, 255, 0), 2);//綠色
@@ -216,14 +211,10 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
             Imgproc.putText(Orignal, "TX2", new Point(arr_X[2] - 50, arr_Y[2] + 50), 2, 1, new Scalar(0, 255, 0), 2);//綠色
             Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[2]) + "," + String.valueOf(arr_Y[2])
                     + ")", new Point(arr_X[2] - 75, arr_Y[2] + 75), 2, 1, new Scalar(0, 255, 0), 2);
-            CX = Math.abs(arr_X[1] - (m / 2));
-            CY = (arr_Y[1] - (n / 2));
-            double CCCXXX = (nn * CX) + 100;
-            double CCCYYY = (nn * CY) + 100;
-            Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(255, 255, 0), 2);
-            angle = Math.atan2((arr_Y[2] - arr_Y[1]), (arr_X[2] - arr_X[1])) * 180 / Math.PI;
+
+            angle = Math.atan2((arr_Y[2] - arr_Y[1]), (arr_X[2] - arr_X[1])) * 180 / Math.PI;//tan-1(算出角度)
         } else {
-            //TX2 - TX1
+            //TX2 - TX1(原始x軸x1>x2)
             Imgproc.putText(Orignal, "TX1", new Point(arr_X[2] - 50, arr_Y[1] + 50), 2, 1, new Scalar(255, 255, 0), 2);//黃色
             Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[2]) + "," + String.valueOf(arr_Y[2])
                     + ")", new Point(arr_X[2] - 75, arr_Y[1] + 75), 2, 1, new Scalar(255, 255, 0), 2);//黃色
@@ -231,29 +222,65 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
             Imgproc.putText(Orignal, "TX2", new Point(arr_X[1] - 50, arr_Y[1] + 50), 2, 1, new Scalar(255, 255, 0), 2);
             Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[1]) + "," + String.valueOf(arr_Y[1])
                     + ")", new Point(arr_X[1] - 75, arr_Y[1] + 75), 2, 1, new Scalar(255, 255, 0), 2);
-            CX = Math.abs(arr_X[1] - (m / 2));
-            CY = (arr_Y[1] - (n / 2));
-            double CCCXXX = 220 - (nn * CX);
-            double CCCYYY = (nn * CY) + 100;
-            Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(255, 255, 0), 2);
-            angle = Math.atan2((arr_Y[1] - arr_Y[2]), (arr_X[1] - arr_X[2])) * 180 / Math.PI;
-        }
-        //匹配XY軸
-        if(angle !=0){
-            angle = angle*(-1);
-            double x2 =  ((arr_X[2]-(m/2))*Math.cos(Math.toRadians(angle))-(arr_Y[2]-(n/2))*Math.sin(Math.toRadians(angle)))+(m/2);
-            double x1 =  ((arr_X[1]-(m/2))*Math.cos(Math.toRadians(angle))-(arr_Y[1]-(n/2))*Math.sin(Math.toRadians(angle)))+(m/2);
-//            int tx2 = (int) ((int) (arr_X[2]*Math.cos(Math.toRadians(angle)))+arr_Y[2]*Math.sin(Math.toRadians(angle)));
-//            int tx1 = (int) ((int) (arr_X[1]*Math.cos(Math.toRadians(angle)))+arr_Y[1]*Math.sin(Math.toRadians(angle)));
-//            double x2 = ((364-320)*Math.cos(Math.toRadians(-15)))-((261-240)*Math.sin(Math.toRadians(-15))) +320;
-//            int x1 = (int) ((arr_X[1]-m)*Math.cos(Math.toRadians(15))-(arr_Y[1]-n)*Math.sin(Math.toRadians(15)))+m;
-            Log.d("angletx2=", String.valueOf(x2));
-            Log.d("angletx1=", String.valueOf(x1));
+
+            angle = Math.atan2((arr_Y[1] - arr_Y[2]), (arr_X[1] - arr_X[2])) * 180 / Math.PI;//tan-1(算出角度)
         }
 
+        //匹配XY軸(不匹配兩盞燈距離不會等於120)
+        if (angle != 0) {
+            angle = angle * (-1);
+            //旋轉公式(y2=y1還不知道為什麼)
+            double x2 = ((arr_X[2] - (m / 2)) * Math.cos(Math.toRadians(angle)) - (arr_Y[2] - (n / 2)) * Math.sin(Math.toRadians(angle))) + (m / 2);
+            double x1 = ((arr_X[1] - (m / 2)) * Math.cos(Math.toRadians(angle)) - (arr_Y[1] - (n / 2)) * Math.sin(Math.toRadians(angle))) + (m / 2);
+            double y2 = ((arr_X[2] - (m / 2)) * Math.sin(Math.toRadians(angle))) + ((arr_Y[2] - (n / 2)) * Math.cos(Math.toRadians(angle))) + (n / 2);
+            double y1 = ((arr_X[1] - (m / 2)) * Math.sin(Math.toRadians(angle))) + ((arr_Y[1] - (n / 2)) * Math.cos(Math.toRadians(angle))) + (n / 2);
 
+            //D2 兩盞燈像素距離
+            int D2 = (int) Math.sqrt(Math.abs(x2 - x1) * Math.abs(x2 - x1));
+            double nn = (double) 120 / D2;
+            if (arr_X[1] <= arr_X[2]) {
+                //TX1 - TX2(原始x軸x2>x1)
+                CX = (int) Math.abs(x1 - (m / 2));
+                CY = (int) (y1 - (n / 2));
+                double CCCXXX = (nn * CX) + 100;
+                double CCCYYY = (nn * CY) + 100;
+                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(255, 255, 0), 2);
+            } else {
+                //TX2 - TX1(原始x軸x1>x2)
+                CX = (int) Math.abs(x1 - (m / 2));
+                CY = (int) (y1 - (n / 2));
+                double CCCXXX = 220 - (nn * CX);
+                double CCCYYY = (nn * CY) + 100;
+                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(255, 255, 0), 2);
+            }
+
+//            Log.d("angletx2=", "(" + String.valueOf(x2) + "," + String.valueOf(y2) + ")");
+//            Log.d("angletx1=", "(" + String.valueOf(x1) + "," + String.valueOf(y1) + ")");
+
+        } else {//匹配X軸
+            //D2 兩盞燈像素距離
+            int D2 = (int) Math.sqrt(
+                    Math.abs(arr_X[1] - arr_X[2]) * Math.abs(arr_X[1] - arr_X[2]) +
+                            Math.abs(arr_Y[1] - arr_Y[2]) * Math.abs(arr_Y[1] - arr_Y[2])
+            );
+            double nn = (double) 120 / D2;
+            if (arr_X[1] <= arr_X[2]) {
+                //TX1 - TX2
+                CX = Math.abs(arr_X[1] - (m / 2));
+                CY = (arr_Y[1] - (n / 2));
+                double CCCXXX = (nn * CX) + 100;
+                double CCCYYY = (nn * CY) + 100;
+                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(255, 255, 0), 2);
+            } else {
+                //TX2 - TX1
+                CX = Math.abs(arr_X[1] - (m / 2));
+                CY = (arr_Y[1] - (n / 2));
+                double CCCXXX = 220 - (nn * CX);
+                double CCCYYY = (nn * CY) + 100;
+                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(255, 255, 0), 2);
+            }
+        }
         Log.d("angle=", String.valueOf(angle));
-
         return Orignal;
     }
 }
