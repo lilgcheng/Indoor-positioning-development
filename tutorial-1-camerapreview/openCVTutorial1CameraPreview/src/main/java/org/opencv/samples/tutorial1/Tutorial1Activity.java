@@ -173,7 +173,7 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
         for (int i = 0; i < contours.size(); i++) {
             //Convert contours(i) from MatOfPoint to MatOfPoint2f
 //            if (i != 0) {
-            if (Imgproc.contourArea(contours.get(i)) > 100 && Imgproc.contourArea(contours.get(i)) < 2000) {
+            if (Imgproc.contourArea(contours.get(i)) > 2000 && Imgproc.contourArea(contours.get(i)) < 5000) {
 
                 MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
 
