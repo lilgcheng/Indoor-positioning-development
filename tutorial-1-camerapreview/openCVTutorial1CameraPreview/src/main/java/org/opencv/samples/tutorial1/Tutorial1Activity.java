@@ -40,7 +40,7 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
     private CameraBridgeViewBase mOpenCvCameraView;
     private boolean mIsJavaCamera = true;
     private MenuItem mItemSwitchCamera = null;
-    int th = 180;//預設閥值
+    int th = 130;//預設閥值
 
     int[] arr_X = new int[1000];
     int[] arr_Y = new int[1000];
@@ -153,7 +153,7 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
         Core.flip(Orignal, Orignal, 1);//翻轉方向
 
          /*結構元素*/
-        int erosion_size = 15;
+        int erosion_size = 3;
         int dilation_size = 3;
         Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2 * erosion_size + 1, 2 * erosion_size + 1));
         Mat element1 = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2 * dilation_size + 1, 2 * dilation_size + 1));
@@ -173,7 +173,7 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
         for (int i = 0; i < contours.size(); i++) {
             //Convert contours(i) from MatOfPoint to MatOfPoint2f
 //            if (i != 0) {
-            if (Imgproc.contourArea(contours.get(i)) > 2000 && Imgproc.contourArea(contours.get(i)) < 5000) {
+            if (Imgproc.contourArea(contours.get(i)) > 2000 ) {
 
                 MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
 
@@ -204,24 +204,24 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
 
         if (arr_X[1] <= arr_X[2]) {
             //TX1 - TX2(原始x軸x2>x1)
-            Imgproc.putText(Orignal, "TX1", new Point(arr_X[1] - 50, arr_Y[1] + 50), 2, 1, new Scalar(0, 255, 0), 2);//綠色
-            Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[1]) + "," + String.valueOf(arr_Y[1])
-                    + ")", new Point(arr_X[1] - 75, arr_Y[1] + 75), 2, 1, new Scalar(0, 255, 0), 2);//綠色
+            Imgproc.putText(Orignal, "TX1 (100,100)", new Point(arr_X[1] - 50, arr_Y[1] + 50), 1, 1, new Scalar(0, 255, 0), 2);//綠色
+           /* Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[1]) + "," + String.valueOf(arr_Y[1])
+                    + ")", new Point(arr_X[1] - 75, arr_Y[1] + 75), 2, 1, new Scalar(0, 255, 0), 2);//綠色*/
 
-            Imgproc.putText(Orignal, "TX2", new Point(arr_X[2] - 50, arr_Y[2] + 50), 2, 1, new Scalar(0, 255, 0), 2);//綠色
-            Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[2]) + "," + String.valueOf(arr_Y[2])
-                    + ")", new Point(arr_X[2] - 75, arr_Y[2] + 75), 2, 1, new Scalar(0, 255, 0), 2);
+            Imgproc.putText(Orignal, "TX2 (220,100)", new Point(arr_X[2] - 50, arr_Y[2] + 50), 1, 1, new Scalar(0, 255, 0), 2);//綠色
+           /* Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[2]) + "," + String.valueOf(arr_Y[2])
+                    + ")", new Point(arr_X[2] - 75, arr_Y[2] + 75), 2, 1, new Scalar(0, 255, 0), 2);*/
 
             angle = Math.atan2((arr_Y[2] - arr_Y[1]), (arr_X[2] - arr_X[1])) * 180 / Math.PI;//tan-1(算出角度)
         } else {
             //TX2 - TX1(原始x軸x1>x2)
-            Imgproc.putText(Orignal, "TX1", new Point(arr_X[2] - 50, arr_Y[1] + 50), 2, 1, new Scalar(255, 255, 0), 2);//黃色
-            Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[2]) + "," + String.valueOf(arr_Y[2])
-                    + ")", new Point(arr_X[2] - 75, arr_Y[1] + 75), 2, 1, new Scalar(255, 255, 0), 2);//黃色
+            Imgproc.putText(Orignal, "TX1 (100,100)", new Point(arr_X[2] - 50, arr_Y[1] + 50), 1, 1, new Scalar(0, 255, 0), 2);
+            /*Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[2]) + "," + String.valueOf(arr_Y[2])
+                    + ")", new Point(arr_X[2] - 75, arr_Y[1] + 75), 2, 1, new Scalar(0, 255, 0), 2);*/
 
-            Imgproc.putText(Orignal, "TX2", new Point(arr_X[1] - 50, arr_Y[1] + 50), 2, 1, new Scalar(255, 255, 0), 2);
-            Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[1]) + "," + String.valueOf(arr_Y[1])
-                    + ")", new Point(arr_X[1] - 75, arr_Y[1] + 75), 2, 1, new Scalar(255, 255, 0), 2);
+            Imgproc.putText(Orignal, "TX2 (220,100)", new Point(arr_X[1] - 50, arr_Y[1] + 50), 1, 1, new Scalar(0, 255, 0), 2);
+            /*Imgproc.putText(Orignal, "(" + String.valueOf(arr_X[1]) + "," + String.valueOf(arr_Y[1])
+                    + ")", new Point(arr_X[1] - 75, arr_Y[1] + 75), 2, 1, new Scalar(0, 255, 0), 2);*/
 
             angle = Math.atan2((arr_Y[1] - arr_Y[2]), (arr_X[1] - arr_X[2])) * 180 / Math.PI;//tan-1(算出角度)
         }
@@ -244,14 +244,14 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
                 CY = (int) (y1 - (n / 2));
                 double CCCXXX = (nn * CX) + 100;
                 double CCCYYY = (nn * CY) + 100;
-                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(255, 255, 0), 2);
+                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(260, 280), 2, 1, new Scalar(0, 0,255), 2);
             } else {
                 //TX2 - TX1(原始x軸x1>x2)
                 CX = (int) Math.abs(x1 - (m / 2));
                 CY = (int) (y1 - (n / 2));
                 double CCCXXX = 220 - (nn * CX);
                 double CCCYYY = (nn * CY) + 100;
-                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(255, 255, 0), 2);
+                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(260, 280), 2, 1, new Scalar(0, 0,255), 2);
             }
 
 //            Log.d("angletx2=", "(" + String.valueOf(x2) + "," + String.valueOf(y2) + ")");
@@ -270,14 +270,14 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
                 CY = (arr_Y[1] - (n / 2));
                 double CCCXXX = (nn * CX) + 100;
                 double CCCYYY = (nn * CY) + 100;
-                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(255, 255, 0), 2);
+                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(0, 0, 255), 2);
             } else {
                 //TX2 - TX1
                 CX = Math.abs(arr_X[1] - (m / 2));
                 CY = (arr_Y[1] - (n / 2));
                 double CCCXXX = 220 - (nn * CX);
                 double CCCYYY = (nn * CY) + 100;
-                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(255, 255, 0), 2);
+                Imgproc.putText(Orignal, String.valueOf((int) CCCXXX) + "," + String.valueOf((int) CCCYYY), new Point(280, 200), 2, 1, new Scalar(0, 0,255), 2);
             }
         }
         Log.d("angle=", String.valueOf(angle));
